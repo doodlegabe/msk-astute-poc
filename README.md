@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/doodlegabe/msk-bluescape-poc.svg?branch=master)](https://travis-ci.org/doodlegabe/msk-bluescape-poc)
+[![Build Status](https://travis-ci.org/doodlegabe/msk-astute-poc.svg?branch=master)](https://travis-ci.org/doodlegabe/msk-astute-poc)
 
-## Bluescape PoC
+## Astute PoC
 
 ```bash
 yarn run build
