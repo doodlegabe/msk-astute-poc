@@ -1,8 +1,12 @@
 require('dotenv').config('/../../.env');
-
+const astuiController = require('../controllers').astui;
+const vectorFilesController = require('../controllers').vectorFiles;
 const fetch = require('isomorphic-fetch');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN, fetch: fetch });
+const svgson = require('svgson');
+const toPath = require('element-to-path');
+const fs =require('fs');
 
 module.exports = (app) => {
 
@@ -11,10 +15,14 @@ module.exports = (app) => {
   }));
 
   function checkVectorFile(dropboxEntry){
-    console.log(dropboxEntry.name);
-    console.log(dropboxEntry.path_lower);
-    console.log(dropboxEntry.id);
-    console.log(dropboxEntry.size);
+
+    fs.readFile(process.env.DROPBOX_LOCAL_PATH + dropboxEntry.path_lower, 'utf-8', function(err, data) {
+      svgson
+        .parse(data)
+        .then(function(json) {
+          astuiController.clean(toPath(json.children[0].children[0]))
+        });
+    });
   }
 
   function checkForSVG(dropboxEntries){
@@ -26,7 +34,7 @@ module.exports = (app) => {
     }
   }
 
-  function checkDropBox(){
+  function checkDropbox(){
     dbx.filesListFolder({path: ''})
       .then(function(response) {
         checkForSVG(response);
@@ -34,10 +42,14 @@ module.exports = (app) => {
       .catch(function(error) {
         console.log(error);
       });
-    setTimeout(checkDropBox, process.env.POLLING_TIMEOUT);
+    setTimeout(checkDropbox, process.env.POLLING_TIMEOUT);
+  }
+  
+  function getDropboxSpace(){
+
   }
 
-  checkDropBox();
+  checkDropbox();
 
 };
 
