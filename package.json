@@ -27,6 +27,7 @@
     "debug": "~2.6.9",
     "dotenv": "^7.0.0",
     "dropbox": "^4.0.17",
+    "element-to-path": "^1.2.0",
     "es6-promise": "^4.2.6",
     "express": "^4.16.4",
     "http-errors": "~1.6.2",
@@ -36,10 +37,12 @@
     "node-sass-middleware": "0.11.0",
     "pg": "^7.8.2",
     "pg-hstore": "^2.3.2",
+    "pretty": "^2.0.0",
     "pug": "2.0.0-beta11",
     "sequelize": "^5.1.0",
     "sequelize-cli": "^5.4.0",
     "serve-favicon": "^2.5.0",
-    "supertest": "^4.0.0"
+    "supertest": "^4.0.0",
+    "svgson": "^3.1.0"
   }
 }
