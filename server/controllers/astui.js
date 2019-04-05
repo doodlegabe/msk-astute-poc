@@ -1,6 +1,9 @@
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 require('dotenv').config('/../../.env');
+const svgson = require('svgson');
+const fs =require('fs');
+const pretty = require('pretty');
 
 module.exports = {
   authenticate(){
@@ -29,7 +32,7 @@ module.exports = {
         }
       });
   },
-  clean(svgPath){
+  clean(svgPath, svgJson, fileName){
     fetch('https://astui.tech/api/v1/spr', {
       method:'POST',
       headers: {
@@ -51,8 +54,23 @@ module.exports = {
         return response.json();
       })
       .then(function(res) {
-        console.log('from astui');
-        console.log(res);
+        svgJson.children[0].children[0].attributes.d = res.path;
+        const stringed = svgson.stringify(svgJson);
+        const formatted = pretty(stringed);
+        fs.writeFile(process.env.DROPBOX_LOCAL_PATH + 'optimized/'+fileName, formatted, function (err) {
+          if (err){
+            throw new Error({
+              message:"Saving Error",
+              status:err
+            });
+          }
+        });
+      })
+      .then(function(response){
+        const msg = {
+          optimizedSvg: process.env.DROPBOX_LOCAL_PATH + 'optimized/'+fileName
+        };
+        return msg.json();
       });
   }
 };

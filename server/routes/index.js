@@ -14,13 +14,12 @@ module.exports = (app) => {
     message: 'working'
   }));
 
-  function checkVectorFile(dropboxEntry){
-
+  function processVector(dropboxEntry){
     fs.readFile(process.env.DROPBOX_LOCAL_PATH + dropboxEntry.path_lower, 'utf-8', function(err, data) {
       svgson
         .parse(data)
         .then(function(json) {
-          astuiController.clean(toPath(json.children[0].children[0]))
+          astuiController.clean(toPath(json.children[0].children[0]),json, dropboxEntry.name);
         });
     });
   }
@@ -29,7 +28,7 @@ module.exports = (app) => {
     for(let i=0; i<dropboxEntries.entries.length; i++){
       let fileName = dropboxEntries.entries[i].name.split('.');
       if(fileName[1] === 'svg'){
-        checkVectorFile(dropboxEntries.entries[i]);
+        processVector(dropboxEntries.entries[i]);
       }
     }
   }
@@ -44,13 +43,8 @@ module.exports = (app) => {
       });
     setTimeout(checkDropbox, process.env.POLLING_TIMEOUT);
   }
-  
-  function getDropboxSpace(){
-
-  }
 
   checkDropbox();
-
 };
 
 
