@@ -19,7 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     originalSVG: {
       type: DataTypes.JSON,
       allowNull: true,
-    }
+    },
+    dropboxID: {
+      type: DataTypes.String,
+      allowNull: true,
+    },
   });
 
   return VectorFile

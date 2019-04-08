@@ -9,7 +9,8 @@ const vectorFileList = [
     originalPath:'/drawing.svg',
     originalSVG: JSON.stringify(vectorExamples.json_svg_2),
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    dropboxId: '49YU1498JK'
   }
 ];
 

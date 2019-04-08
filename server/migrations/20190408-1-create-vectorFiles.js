@@ -28,7 +28,11 @@ module.exports = {
       originalSVG: {
         type: Sequelize.JSON,
         allowNull: true,
-      }
+      },
+      dropboxID: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {

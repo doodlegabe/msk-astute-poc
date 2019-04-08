@@ -22,6 +22,7 @@ describe('Creating, Reading, Updating, and Deleting Vector Files', function () {
           optimizedSVG: JSON.stringify(vectorExamples.json_svg_1),
           originalPath:'/drawing.svg',
           originalSVG: JSON.stringify(vectorExamples.json_svg_2),
+          dropboxID: '1234'
         })
       .expect(201)
       .set('Accept', 'application/json')
