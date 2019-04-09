@@ -1,13 +1,12 @@
 'use strict';
-
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('VectorFiles', {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('Vectors', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       optimizedDate: {
         type: Sequelize.DATE,
@@ -18,7 +17,7 @@ module.exports = {
         allowNull: true,
       },
       optimizedSVG: {
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       originalPath: {
@@ -26,16 +25,14 @@ module.exports = {
         allowNull: true,
       },
       originalSVG: {
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
-      dropboxID: {
+      dropboxId: {
         type: Sequelize.STRING,
         allowNull: true,
-      },
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('VectorFiles');
-  }
+        unique: true,
+      }
+  }),
+  down: (queryInterface /* , Sequelize */) => queryInterface.dropTable('Vectors')
 };

@@ -1,31 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
-  const VectorFile = sequelize.define('VectorFile', {
+ const Vector = sequelize.define('Vector', {
     optimizedDate: {
-      type: DataTypes.Date,
-      allowNull: false,
+      type: DataTypes.DATE,
+      allowNull: true,
     },
     optimizedPath: {
-      type: DataTypes.String,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     optimizedSVG: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     originalPath: {
-      type: DataTypes.String,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     originalSVG: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-    dropboxID: {
-      type: DataTypes.String,
+    dropboxId: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   });
-
-  return VectorFile
+ return Vector;
 };
-

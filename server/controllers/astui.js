@@ -4,6 +4,7 @@ require('dotenv').config('/../../.env');
 const svgson = require('svgson');
 const fs =require('fs');
 const pretty = require('pretty');
+const vectorFilesController = require('./vectors');
 
 module.exports = {
   authenticate(){
@@ -57,20 +58,16 @@ module.exports = {
         svgJson.children[0].children[0].attributes.d = res.path;
         const stringed = svgson.stringify(svgJson);
         const formatted = pretty(stringed);
-        fs.writeFile(process.env.DROPBOX_LOCAL_PATH + 'optimized/'+fileName, formatted, function (err) {
+        fs.writeFile(process.env.DROPBOX_LOCAL_PATH + '/optimized/'+fileName, formatted, function (err) {
           if (err){
+            console.log(err);
             throw new Error({
               message:"Saving Error",
               status:err
             });
           }
+          vectorFilesController.temp({dropboxId:'foo'});
         });
       })
-      .then(function(response){
-        const msg = {
-          optimizedSvg: process.env.DROPBOX_LOCAL_PATH + 'optimized/'+fileName
-        };
-        return msg.json();
-      });
   }
 };
