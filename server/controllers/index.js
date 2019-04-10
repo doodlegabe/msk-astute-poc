@@ -1,7 +1,7 @@
 const astui = require('./astui');
-const vectorFiles = require('./vectorFiles');
+const vectors = require('./vectors');
 
 module.exports = {
   astui,
-  vectorFiles
+  vectors
 };

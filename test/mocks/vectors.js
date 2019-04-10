@@ -1,6 +1,6 @@
 import vectorExamples from './example_json_svg'
 
-const vectorFileList = [
+const vectorList = [
   {
     id: 1,
     optimizedDate: new Date(),
@@ -9,24 +9,31 @@ const vectorFileList = [
     originalPath:'/drawing.svg',
     originalSVG: JSON.stringify(vectorExamples.json_svg_2),
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    dropboxId: '49YU1498JK'
   }
 ];
 
-exports.createVectorFile = function(){
-  return vectorFileList[0]
+exports.createVector = function(){
+  return vectorList[0]
 };
 
-exports.listVectorFiles = function(){
-  return { vectorFiles: vectorFileList }
+exports.listVectors = function(){
+  return { vectors: vectorList }
 };
 
-exports.retrieveVectorFile = function(){
-  return vectorFileList[0]
+exports.retrieveVector= function(){
+  return vectorList[0]
 };
 
-exports.updateVectorFile = function(){
-  let example = vectorFileList[0];
+exports.newDropboxID = function(){
+  let example = vectorList[0];
+  example.dropboxId = '59YU1498JK';
+  return example
+};
+
+exports.updateVector = function(){
+  let example = vectorList[0];
   example.optimizedSVG = JSON.stringify(vectorExamples.json_svg_1_updated);
   example.updatedAt = new Date();
   return example

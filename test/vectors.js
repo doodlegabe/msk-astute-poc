@@ -9,12 +9,12 @@ import vectorExamples from './mocks/example_json_svg'
 
 describe('Creating, Reading, Updating, and Deleting Vector Files', function () {
   it('creates a Vector File from a valid post', function (done) {
-    const aVectorFile = mocks.vectorFiles.createVectorFile();
+    const aVectorFile = mocks.vectors.createVector();
     nock(API_URL)
-      .post('/vector-file/create')
+      .post('/vector/create')
       .reply(201, aVectorFile);
     request
-      .post('/vector-file/create')
+      .post('/vector/create')
       .send(
         {
           optimizedDate: new Date(),
@@ -22,6 +22,7 @@ describe('Creating, Reading, Updating, and Deleting Vector Files', function () {
           optimizedSVG: JSON.stringify(vectorExamples.json_svg_1),
           originalPath:'/drawing.svg',
           originalSVG: JSON.stringify(vectorExamples.json_svg_2),
+          dropboxId: '1234'
         })
       .expect(201)
       .set('Accept', 'application/json')
@@ -32,27 +33,27 @@ describe('Creating, Reading, Updating, and Deleting Vector Files', function () {
   });
 
   it('lists all Vector Files', function (done) {
-    const mockVectorFiles = mocks.vectorFiles.listVectorFiles();
+    const mockVectorFiles = mocks.vectors.listVectors();
     nock(API_URL)
-      .get('/vector-files')
-      .reply(200, mockVectorFiles.vectorFiles);
+      .get('/vectors')
+      .reply(200, mockVectorFiles.vectors);
     request
-      .get('/vector-files')
+      .get('/vectors')
       .expect(200)
       .set('Accept', 'application/json')
       .end(function (err, res) {
-        expect(res.body[0].id).to.equal(mockVectorFiles.vectorFiles[0].id);
+        expect(res.body[0].id).to.equal(mockVectorFiles.vectors[0].id);
         done();
       })
   });
 
   it('retrieves a single Vector File', function (done) {
-    const aVectorFile = mocks.vectorFiles.retrieveVectorFile();
+    const aVectorFile = mocks.vectors.retrieveVector();
     nock(API_URL)
-      .get('/vector-file/1')
+      .get('/vector/1')
       .reply(200, aVectorFile);
     request
-      .get('/vector-file/1')
+      .get('/vector/1')
       .expect(200)
       .set('Accept', 'application/json')
       .end(function (err, res) {
@@ -61,32 +62,62 @@ describe('Creating, Reading, Updating, and Deleting Vector Files', function () {
       })
   });
 
-  it('updates a single Vector File', function (done) {
-    const aVectorFile = mocks.vectorFiles.updateVectorFile();
+  it('retrieves a Vector File by Dropbox ID', function(done){
+    const aVectorFile = mocks.vectors.retrieveVector();
     nock(API_URL)
-      .put('/vector-file/1')
+      .get('/vector/1')
       .reply(200, aVectorFile);
     request
-      .put('/vector-file/1')
+      .get('/vector/1')
+      .expect(200)
+      .set('Accept', 'application/json')
+      .end(function (err, res) {
+        expect(res.body.dropboxId).to.equal(aVectorFile.dropboxId);
+        done();
+      })
+  });
+
+  it('creates a new Vector File with a new Dropbox ID', function(done){
+    const aVectorFile = mocks.vectors.newDropboxID();
+    nock(API_URL)
+      .get('/vector/1')
+      .reply(200, aVectorFile);
+    request
+      .get('/vector/1')
+      .expect(200)
+      .set('Accept', 'application/json')
+      .end(function (err, res) {
+        expect(res.body.dropboxId).to.equal(aVectorFile.dropboxId);
+        done();
+      })
+  });
+
+  it('updates a single Vector File', function (done) {
+    const aVectorFile = mocks.vectors.updateVector();
+    nock(API_URL)
+      .put('/vector/1')
+      .reply(200, aVectorFile);
+    request
+      .put('/vector/1')
       .send(
         {
-          first_name: aVectorFile.first_name
+          optimizedSVG: JSON.stringify(vectorExamples.json_svg_1_updated)
         }
         )
       .expect(200)
       .set('Accept', 'application/json')
       .end(function (err, res) {
-        expect(res.body.first_name).to.equal(aVectorFile.first_name);
+        expect(res.body.optimizedSVG).to.equal(aVectorFile.optimizedSVG);
         done();
       })
   });
 
   it('deletes a single Vector File', function (done) {
     nock(API_URL)
-      .delete('/vectorFile/1')
+      .delete('/vector/1')
       .reply(204);
     request
-      .delete('/vectorFile/1')
+      .delete('/vector/1')
       .send({id: 1})
       .expect(204)
       .end(function(){

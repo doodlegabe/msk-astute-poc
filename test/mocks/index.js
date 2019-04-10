@@ -1,2 +1,2 @@
 exports.basics = require('./basics');
-exports.vectorFiles = require('./vectorFiles');
+exports.vectors = require('./vectors');
