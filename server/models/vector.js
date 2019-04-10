@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     optimizedSVG: {
-      type: DataTypes.TEXT,
+      type: DataTypes.BLOB,
       allowNull: true,
     },
     originalPath: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     originalSVG: {
-      type: DataTypes.TEXT,
+      type: DataTypes.BLOB,
       allowNull: true,
     },
     dropboxId: {

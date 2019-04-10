@@ -6,7 +6,7 @@ module.exports = {
       .create({
         optimizedDate: null,
         optimizedPath: null,
-        optimizedSVG: {},
+        optimizedSVG: null,
         originalPath: req.body.originalPath,
         originalSVG: req.body.originalSVG,
         dropboxId: req.body.dropboxId
@@ -16,13 +16,15 @@ module.exports = {
   },
   list(req, res) {
     return Vector
-      .all()
+      .findAll({
+        attributes:['id','dropboxId']
+      })
       .then(vector => res.status(200).send(vector))
       .catch(error => res.status(400).send(error));
   },
   retrieve(req, res) {
     return Vector
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then(vector => {
         if (!vector) {
           return res.status(404).send({
@@ -39,7 +41,7 @@ module.exports = {
         where:{
           dropboxId: req.body.dropboxId
         },
-        attributes : ['id','dropboxId']
+        attributes : ['id','optimizedDate','optimizedPath', 'optimizedSVG','originalPath','originalSVG','dropboxId','createdAt','updatedAt']
       }
     ).then(vector => {
         if (!vector) {
@@ -59,11 +61,11 @@ module.exports = {
   },
   update(req, res) {
     return Vector
-      .findById(req.params.id)
+      .findByPk(req.body.id)
       .then(vector => {
         if (!vector) {
           return res.status(404).send({
-            message: 'VectorFile Not Found',
+            message: 'Vector record Not Found',
           });
         }
         return vector

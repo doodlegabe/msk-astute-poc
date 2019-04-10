@@ -17,7 +17,7 @@ module.exports = {
         allowNull: true,
       },
       optimizedSVG: {
-        type: Sequelize.TEXT,
+        type: Sequelize.BLOB,
         allowNull: true,
       },
       originalPath: {
@@ -25,14 +25,22 @@ module.exports = {
         allowNull: true,
       },
       originalSVG: {
-        type: Sequelize.TEXT,
+        type: Sequelize.BLOB,
         allowNull: true,
       },
       dropboxId: {
         type: Sequelize.STRING,
         allowNull: true,
         unique: true,
-      }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
   }),
   down: (queryInterface /* , Sequelize */) => queryInterface.dropTable('Vectors')
 };
